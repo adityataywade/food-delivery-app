@@ -1,4 +1,3 @@
-import { JsonWebTokenError } from "jsonwebtoken"
 import jwt from "jsonwebtoken"
 
 const genToken=async(userId)=>{

@@ -7,7 +7,7 @@ const SignUp = () => {
     const borderColor = "#ddd";
 
     const [showPassword, setShowPassword] = useState(false)
-  const [role, setRole] = useState("user")
+    const [role, setRole] = useState("user")
     return (
         <div className='min-h-screen flex w-full  items-center justify-center p-4' style={{ backgroundColor: bgColor }}>
             <div className='bg-white rounded-xl shadow-lg w-full max-w-md p-8 border' style={{ borderColor }}>
@@ -42,16 +42,18 @@ const SignUp = () => {
                 <div className="mb-4">
                     <label htmlFor="role" className="block text-gray-700 font-medium mb-1">Role</label>
                     <div className='flex gap-2'>
-                        {["user","owner","deliveryPerson"].map((r)=>(
+                        {["user", "owner", "deliveryPerson"].map((r) => (
                             <button className="flex-1 border rounded-lg px-3 py-2 text-center font-medium transition-colors cursor-pointer"
-                            onClick={()=>setRole(r)}
-                            style={
-                                role==r?
-                                { backgroundColor:primaryColor,color:"white"  } :{border:`1px solid ${primaryColor}`,color:primaryColor}
-                            }>{r}</button>
+                                onClick={() => setRole(r)}
+                                style={
+                                    role == r ?
+                                        { backgroundColor: primaryColor, color: "white" } : { border: `1px solid ${primaryColor}`, color: primaryColor }
+                                }>{r}</button>
                         ))}
                     </div>
                 </div>
+                <button className="w-full cursor-pointer font-semibold flex item-center justify-center gap-2 border rounded-lg px-4 py-2 transition duration-200"
+                style={{backgroundColor:primaryColor,color:"white"}}>Signup</button>
             </div>
         </div>
     )

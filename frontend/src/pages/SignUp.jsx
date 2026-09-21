@@ -5,6 +5,8 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { serverUrl } from "../App";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../firebase";
 
 const SignUp = () => {
     const primaryColor = "#ff4d2d";
@@ -50,6 +52,17 @@ const SignUp = () => {
             setErrorMessage(error.response?.data?.message || "Unable to create your account. Please try again.")
         }
     }
+
+    const handleGoogleAuth=async () => {
+        try {
+            const provider=new GoogleAuthProvider()
+            const result=await signInWithPopup(auth,provider)
+            console.log(result)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className='min-h-screen flex w-full  items-center justify-center p-4' style={{ backgroundColor: bgColor }}>
             <div className='bg-white rounded-xl shadow-lg w-full max-w-md p-8 border' style={{ borderColor }}>
@@ -97,7 +110,7 @@ const SignUp = () => {
                 </div>
                 <button className="w-full cursor-pointer font-semibold flex item-center justify-center gap-2 border rounded-lg px-4 py-2 transition duration-200"
                     style={{ backgroundColor: primaryColor, color: "white" }} onClick={handleSignUp}>Signup</button>
-                <button className="w-full px-4 py-2  mt-4 flex justify-center items-center font-bold gap-2 border-2 rounded-lg transition duration-200 border-gray-400 hover:bg-gray-100 cursor-pointer"><FcGoogle size={27} />
+                <button className="w-full px-4 py-2  mt-4 flex justify-center items-center font-bold gap-2 border-2 rounded-lg transition duration-200 border-gray-400 hover:bg-gray-100 cursor-pointer" onClick={handleGoogleAuth}><FcGoogle size={27} />
                     <span>Sign up with Google</span></button>
                 <p className="text-center mt-2 " >Already have an account? <span className='text-[#ff4d2d]  cursor-pointer underline font-semibold' onClick={() => navigate("/signin")} >Sign In</span> </p>
             </div>

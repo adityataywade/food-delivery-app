@@ -53,11 +53,20 @@ const SignUp = () => {
         }
     }
 
-    const handleGoogleAuth=async () => {
+    const handleGoogleAuth = async () => {
+        if (!mobile) {
+            return alert("Mobile Number is required")
+        }
+        const provider = new GoogleAuthProvider()
+        const result = await signInWithPopup(auth, provider)
         try {
-            const provider=new GoogleAuthProvider()
-            const result=await signInWithPopup(auth,provider)
-            console.log(result)
+                const {data}=await axios.post(`${serverUrl}/api/auth/google-auth`,{
+                    fullName:result.user.displayName,
+                    email:result.user.email,
+                    role,
+                    mobile
+                },{withCredentials:true})
+                
         } catch (error) {
             console.log(error)
         }

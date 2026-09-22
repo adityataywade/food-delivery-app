@@ -69,7 +69,6 @@ const SignUp = () => {
                 <h1 className='text-3xl font-bold mb-2' style={{ color: primaryColor }}>Zomato</h1>
                 <p className='text-gray-600 mb-8'>Create your account to get started with delicious food deliveries </p>
                 {errorMessage && <p className="mb-4 text-sm text-red-600" role="alert">{errorMessage}</p>}
-
                 {/*fullName*/}
                 <div className="mb-4">
                     <label htmlFor="fullnName" className="block text-gray-700 font-medium mb-1">Full Name</label>

@@ -7,6 +7,8 @@ import axios from "axios"
 import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
+import { ClipLoader } from "react-spinners"
+
 
 const SignUp = () => {
     const primaryColor = "#ff4d2d";
@@ -22,6 +24,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("")
     const [mobile, setMobile] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleSignUp = async () => {
         setErrorMessage("")
@@ -38,7 +41,7 @@ const SignUp = () => {
             setErrorMessage("Mobile number must be exactly 10 digits")
             return
         }
-
+        setLoading(true)
         try {
             const result = await axios.post(`${serverUrl}/api/auth/signup`, {
                 fullName: fullName.trim(),
@@ -47,8 +50,10 @@ const SignUp = () => {
                 mobile: mobile.trim(),
                 role
             }, { withCredentials: true })
-            console.log(result)
+            setLoading(false)
+            
         } catch (error) {
+            setLoading(false)
             setErrorMessage(error.response?.data?.message || "Unable to create your account. Please try again.")
         }
     }
@@ -68,6 +73,7 @@ const SignUp = () => {
                 },{withCredentials:true})
                 
         } catch (error) {
+            
             console.log(error)
         }
     }
@@ -81,24 +87,24 @@ const SignUp = () => {
                 {/*fullName*/}
                 <div className="mb-4">
                     <label htmlFor="fullnName" className="block text-gray-700 font-medium mb-1">Full Name</label>
-                    <input type="text" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setFullName(e.target.value)} placeholder="Enter Your Full Name" />
+                    <input type="text" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setFullName(e.target.value)} placeholder="Enter Your Full Name" required />
                 </div>
 
                 {/*email*/}
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700 font-medium mb-1">E-mail</label>
-                    <input type="email" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setEmail(e.target.value)} placeholder="Enter Your Email" />
+                    <input type="email" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setEmail(e.target.value)} placeholder="Enter Your Email" required />
                 </div>
                 {/*mobile Number*/}
                 <div className="mb-4">
                     <label htmlFor="mobile" className="block text-gray-700 font-medium mb-1">Mobile Number</label>
-                    <input type="tel" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setMobile(e.target.value)} placeholder="Enter Your Mobile Number" />
+                    <input type="tel" className="w-full border rounded-lg px-3 focus:outline-none focus:border-orange-500" onChange={(e) => setMobile(e.target.value)} placeholder="Enter Your Mobile Number" required />
                 </div>
                 {/*password*/}
                 <div className="mb-4">
                     <label htmlFor="password" className="block text-gray-700 font-medium mb-1">Password</label>
                     <div className="relative">
-                        <input type={`${showPassword ? "text" : "password"}`} className="w-full h-auto border rounded-lg px-3 cursor-pointer focus:outline-none  pr-10" onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" />
+                        <input type={`${showPassword ? "text" : "password"}`} className="w-full h-auto border rounded-lg px-3 cursor-pointer focus:outline-none  pr-10" onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" required/>
                         <button className="absolute right-3 top-[6px] text-gray-500 cursor-pointer" onClick={() => setShowPassword(prev => !prev)}>{!showPassword ? <FaRegEye className="cursor-pointer" /> : <FaRegEyeSlash />}</button>
                     </div>
                 </div>
@@ -117,10 +123,10 @@ const SignUp = () => {
                     </div>
                 </div>
                 <button className="w-full cursor-pointer font-semibold flex item-center justify-center gap-2 border rounded-lg px-4 py-2 transition duration-200"
-                    style={{ backgroundColor: primaryColor, color: "white" }} onClick={handleSignUp}>Signup</button>
+                    style={{ backgroundColor: primaryColor, color: "white" }} onClick={handleSignUp} disabled={loading} > {loading?<ClipLoader size={20} color="white"/>:"SignUp"}</button>
                 <button className="w-full px-4 py-2  mt-4 flex justify-center items-center font-bold gap-2 border-2 rounded-lg transition duration-200 border-gray-400 hover:bg-gray-100 cursor-pointer" onClick={handleGoogleAuth}><FcGoogle size={27} />
                     <span>Sign up with Google</span></button>
-                <p className="text-center mt-2 " >Already have an account? <span className='text-[#ff4d2d]  cursor-pointer underline font-semibold' onClick={() => navigate("/signin")} >Sign In</span> </p>
+                < p className="text-center mt-2 " >Already have an account? <span className='text-[#ff4d2d]  cursor-pointer underline font-semibold' onClick={() => navigate("/signin")} >Sign In</span> </p>
             </div>
         </div>
     )

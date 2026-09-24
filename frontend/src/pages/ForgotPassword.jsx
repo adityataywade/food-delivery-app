@@ -3,6 +3,7 @@ import { IoIosArrowRoundBack } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import { serverUrl } from "../App"
 import axios from "axios"
+import { ClipLoader } from "react-spinners"
 
 function Forgotpassword  ()  {
   const navigate = useNavigate()
@@ -17,6 +18,7 @@ function Forgotpassword  ()  {
   const handleSubmit = (event) => {
     event.preventDefault()
     setErrorMessage("")
+    
 
     if (step === 1 && email.trim()) {
       handleSendOtp()
@@ -91,7 +93,7 @@ function Forgotpassword  ()  {
           >
             <IoIosArrowRoundBack size={30} />
           </button>
-          <h1 className="text-2xl font-bold text-[#ff4d2d]">Forgot Password</h1>
+          <h1 clas sName="text-2xl font-bold text-[#ff4d2d]">Forgot Password</h1>
         </div>
 
         {errorMessage && <p className="mb-4 text-sm text-red-600" role="alert">{errorMessage}</p>}

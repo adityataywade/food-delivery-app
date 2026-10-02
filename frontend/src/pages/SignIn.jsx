@@ -8,6 +8,8 @@ import { serverUrl } from "../App";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { ClipLoader } from "react-spinners"
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice";
 
 const SignIn = () => {
     const primaryColor = "#ff4d2d";
@@ -15,14 +17,12 @@ const SignIn = () => {
     const borderColor = "#ddd";
 
     const [showPassword, setShowPassword] = useState(false)
-
     const navigate = useNavigate()
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
     const [errorMessage, setErrorMessage] = useState("")
     const [loading, setLoading] = useState(false)
+    const dispatch=useDispatch()
 
     const handleSignIn = async () => {
         setErrorMessage("")
@@ -43,6 +43,7 @@ const SignIn = () => {
                 password,
             }, { withCredentials: true })
             setLoading(false)
+            dispatch(setUserData(result.data))
         } catch (error) {
             setLoading(false)
             setErrorMessage(error.response?.data?.message || "Unable to create your account. Please try again.")
@@ -59,6 +60,7 @@ const SignIn = () => {
                         email:result.user.email,
                     },{withCredentials:true})
                     console.log(data)
+                     dispatch(setUserData(data))
                     
             } catch (error) {
                 setErrorMessage(error.response?.data?.message || "Unable to sign in with Google. Please try again.")
